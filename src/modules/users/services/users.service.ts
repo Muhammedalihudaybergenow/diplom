@@ -19,18 +19,27 @@ export class UsersService {
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.userRepo.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.userRepo.findOneBy({
+      id,
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    try {
+      return this.userRepo.save({
+        id,
+        ...updateUserDto,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.userRepo.delete(id);
   }
 }
