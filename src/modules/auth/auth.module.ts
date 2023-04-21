@@ -8,16 +8,29 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
   imports: [
     UsersModule,
     PassportModule,
-    JwtModule.register({
-      secretOrPrivateKey: 'jwt-secret',
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => {
+        return {
+          secretOrKeyProvider: config.get('JWT_SECRET'),
+        };
+      },
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([UserEntity]),
   ],
-  providers: [JwtService, AuthService, JwtAuthGuard, JwtStrategy],
+  providers: [
+    JwtService,
+    AuthService,
+    JwtAuthGuard,
+    JwtStrategy,
+    ConfigService,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}

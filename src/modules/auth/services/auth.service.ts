@@ -4,10 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
+    private configService: ConfigService,
     @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
   ) {}
 
@@ -36,7 +38,10 @@ export class AuthService {
     };
   }
 
-  auth(token: string) {
-    return this.jwtService.decode(token);
+  auth(token?: string) {
+    const data = this.configService.get('POSTGRES_DATABASE_HOST');
+    console.log(data);
+    return data;
+    // return this.jwtService.decode(token);
   }
 }
