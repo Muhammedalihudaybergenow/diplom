@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RoleEntity } from '../users/roles/entities/role.entity';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -14,6 +15,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           host: config.get('POSTGRES_DATABASE_HOST'),
           username: config.get('POSTGRES_DATABASE_USERNAME'),
           port: config.get<number>('POSTGRES_DATABASE_PORT'),
+          entities: [UserEntity, RoleEntity],
         };
       },
       inject: [ConfigService],

@@ -30,7 +30,8 @@ export class AuthService {
         id: user.id,
       },
       {
-        secret: 'jwt-secret',
+        secret: this.configService.get('JWT_SECRET'),
+        expiresIn: '1h',
       },
     );
     return {
