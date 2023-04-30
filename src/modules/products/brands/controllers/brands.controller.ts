@@ -14,6 +14,7 @@ import { CreateBrandDto } from '../dto/create-brand.dto';
 import { UpdateBrandDto } from '../dto/update-brand.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ImageCommon } from 'src/common/images/images.common';
 
 @Controller('brands')
 export class BrandsController {
@@ -25,6 +26,7 @@ export class BrandsController {
       dest: './uploads/brands',
       storage: diskStorage({
         destination: './uploads/brands',
+        filename: ImageCommon.editFileName,
       }),
     }),
   )
@@ -32,7 +34,6 @@ export class BrandsController {
     @Body() createBrandDto: CreateBrandDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log(file);
     return this.brandsService.create(createBrandDto, file);
   }
 

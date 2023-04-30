@@ -4,6 +4,7 @@ import { UpdateBrandDto } from '../dto/update-brand.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BrandEntity } from '../entities/brand.entity';
 import { Repository } from 'typeorm';
+import * as fs from 'fs';
 
 @Injectable()
 export class BrandsService {
@@ -30,7 +31,13 @@ export class BrandsService {
     return `This action updates a #${id} brand`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} brand`;
+  async remove(id: number) {
+    const brand = await this.brandRepo.findOneBy({
+      id,
+    });
+    console.log(brand);
+    const result = fs.unlinkSync(brand.link);
+    await this.brandRepo.remove(brand);
+    return 'Success';
   }
 }
