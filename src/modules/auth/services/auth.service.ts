@@ -5,6 +5,7 @@ import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { LoginDto } from '../dtos/login.dto';
 @Injectable()
 export class AuthService {
   constructor(
@@ -39,10 +40,32 @@ export class AuthService {
     };
   }
 
-  auth(token?: string) {
-    const data = this.configService.get('POSTGRES_DATABASE_HOST');
-    console.log(data);
-    return data;
-    // return this.jwtService.decode(token);
+  async registration(dto: LoginDto) {
+    const { password, username } = dto;
+    const user = await this.userRepo.findOneBy({
+      username,
+    });
+    if (user) {
+      return 'User already registered';
+    }
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const userEntity = new UserEntity({
+      password: hashedPassword,
+      status: 'active',
+      username,
+    });
+    const newUser = await this.userRepo.save(userEntity);
+    const accessToken = await this.jwtService.signAsync(
+      {
+        id: newUser.id,
+      },
+      {
+        secret: this.configService.get('JWT_SECRET'),
+        expiresIn: '1h',
+      },
+    );
+    return {
+      accessToken,
+    };
   }
 }

@@ -1,13 +1,12 @@
 import {
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from '../../entities/user.entity';
+import { PermissionEntity } from '../../permissions/entities/permission.entity';
 
 @Entity({
   name: 'roles',
@@ -40,4 +39,10 @@ export class RoleEntity {
     },
   })
   users: UserEntity[];
+
+  @ManyToMany(() => PermissionEntity, (permissions) => permissions.roles)
+  permissions: PermissionEntity[];
+  constructor(role?: Partial<RoleEntity>) {
+    Object.assign(this, role);
+  }
 }

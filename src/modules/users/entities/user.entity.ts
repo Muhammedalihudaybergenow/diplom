@@ -38,4 +38,8 @@ export class UserEntity {
 
   @ManyToMany(() => RoleEntity, (roles) => roles.users)
   roles: RoleEntity[];
+
+  constructor(user?: Partial<UserEntity>) {
+    Object.assign(this, user);
+  }
 }
