@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RoleEntity } from '../users/roles/entities/role.entity';
 import { PermissionEntity } from '../users/permissions/entities/permission.entity';
 import { BrandEntity } from '../products/brands/entities/brand.entity';
+import { CategoryEntity } from '../products/categories/entities/category.entity';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -17,7 +18,13 @@ import { BrandEntity } from '../products/brands/entities/brand.entity';
           host: config.get('POSTGRES_DATABASE_HOST'),
           username: config.get('POSTGRES_DATABASE_USERNAME'),
           port: config.get<number>('POSTGRES_DATABASE_PORT'),
-          entities: [UserEntity, RoleEntity, PermissionEntity, BrandEntity],
+          entities: [
+            UserEntity,
+            RoleEntity,
+            PermissionEntity,
+            BrandEntity,
+            CategoryEntity,
+          ],
           synchronize: true,
         };
       },

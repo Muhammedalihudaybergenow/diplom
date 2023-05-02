@@ -15,12 +15,15 @@ import { UpdateBrandDto } from '../dto/update-brand.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ImageCommon } from 'src/common/images/images.common';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 
 @Controller('brands')
+@ApiTags('Brands COntroller')
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
   @Post()
+  @ApiConsumes('multipart/form-data')
   @UseInterceptors(
     FileInterceptor('image', {
       dest: './uploads/brands',
