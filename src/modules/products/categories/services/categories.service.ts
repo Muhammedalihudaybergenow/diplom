@@ -28,14 +28,24 @@ export class CategoriesService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} category`;
+    const category = new CategoryEntity({ id });
+    return this.categoryRepo.findDescendantsTree(category);
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+    const { name, parentId } = updateCategoryDto;
+    const category = new CategoryEntity({ id });
+    if (name) {
+      category.name = name;
+    }
+    if (parentId) {
+      category.parent = new CategoryEntity({ id: parentId });
+    }
+    return this.categoryRepo.save(category);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} category`;
+    const category = new CategoryEntity({ id });
+    return this.categoryRepo.remove(category);
   }
 }

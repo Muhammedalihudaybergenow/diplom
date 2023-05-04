@@ -26,7 +26,7 @@ export class CategoryEntity {
   })
   name: string;
 
-  @TreeParent()
+  @TreeParent({ onDelete: 'CASCADE' })
   parent: CategoryEntity;
 
   @TreeChildren()
