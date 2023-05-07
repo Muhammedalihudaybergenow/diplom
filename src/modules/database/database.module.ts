@@ -6,6 +6,8 @@ import { RoleEntity } from '../users/roles/entities/role.entity';
 import { PermissionEntity } from '../users/permissions/entities/permission.entity';
 import { BrandEntity } from '../products/brands/entities/brand.entity';
 import { CategoryEntity } from '../products/categories/entities/category.entity';
+import { ProductEntity } from '../products/entities/product.entity';
+import { ImageEntity } from '../products/entities/image.entity';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -24,6 +26,8 @@ import { CategoryEntity } from '../products/categories/entities/category.entity'
             PermissionEntity,
             BrandEntity,
             CategoryEntity,
+            ProductEntity,
+            ImageEntity,
           ],
           synchronize: true,
         };

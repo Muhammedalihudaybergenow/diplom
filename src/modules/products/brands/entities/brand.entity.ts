@@ -26,4 +26,8 @@ export class BrandEntity {
     nullable: false,
   })
   link: string;
+
+  constructor(brand?: Partial<BrandEntity>) {
+    Object.assign(this, brand);
+  }
 }
