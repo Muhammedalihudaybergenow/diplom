@@ -7,6 +7,7 @@ import { CategoryEntity } from '../categories/entities/category.entity';
 import { ImageEntity } from '../entities/image.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ProductQueryDto } from '../dto/product-query.dto';
 
 @Injectable()
 export class ProductService {
@@ -27,8 +28,33 @@ export class ProductService {
     return this.productRepo.save(product);
   }
 
-  findAll() {
-    return `This action returns all product`;
+  findAll(dto: ProductQueryDto) {
+    let { limit, skip, brandIds, categoryIds, search } = dto;
+    if (typeof brandIds === 'string') {
+      brandIds = [brandIds];
+    }
+    if (typeof categoryIds === 'string') {
+      categoryIds = [categoryIds];
+    }
+    const query = this.productRepo.createQueryBuilder('products');
+    if (brandIds) {
+      query.andWhere('products.brandId IN (:...brandIds)', { brandIds });
+    }
+    if (categoryIds) {
+      query.andWhere('products.categoryId IN (:...categoryIds)', {
+        categoryIds,
+      });
+    }
+    if (search) {
+      query.andWhere(
+        'products.name ILIKE (:search) OR products.description ILIKE (:search)',
+        { search: `%${search}%` },
+      );
+    }
+    return query
+      .take(limit)
+      .skip((skip - 1) * limit)
+      .getMany();
   }
 
   findOne(id: number) {
