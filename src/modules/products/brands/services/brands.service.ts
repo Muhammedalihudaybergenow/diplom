@@ -24,7 +24,10 @@ export class BrandsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} brand`;
+    return this.brandRepo
+      .createQueryBuilder('brand')
+      .where('brand.id =:id', { id })
+      .getOne();
   }
 
   update(id: number, updateBrandDto: UpdateBrandDto) {

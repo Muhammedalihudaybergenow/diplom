@@ -6,11 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { PermissionsService } from '../services/permissions.service';
 import { CreatePermissionDto } from '../dto/create-permission.dto';
 import { UpdatePermissionDto } from '../dto/update-permission.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Role } from '../decorator/role.decorator';
+import { PermissionGuard } from '../guards/permission.guard';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 @Controller('permissions')
 @ApiTags('Permissions Controller')
@@ -23,6 +27,9 @@ export class PermissionsController {
   }
 
   @Get()
+  @ApiBearerAuth()
+  @Role('user.read')
+  @UseGuards(JwtAuthGuard, PermissionGuard)
   findAll() {
     return this.permissionsService.findAll();
   }

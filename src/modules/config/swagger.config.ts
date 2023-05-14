@@ -7,6 +7,10 @@ export class SwaggerConfig {
       .setDescription('The Diplom API description')
       .setVersion('1.0')
       .addTag('Diplom')
+      .addBearerAuth({
+        type: 'http',
+        bearerFormat: 'bearer',
+      })
       .build();
   }
 }
