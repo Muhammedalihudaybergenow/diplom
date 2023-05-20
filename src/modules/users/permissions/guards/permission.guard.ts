@@ -13,9 +13,25 @@ export class PermissionGuard implements CanActivate {
       'permission',
       context.getHandler(),
     );
-    const userRolePermissions = user.roles.map((role) =>
-      role.permissions.map((permission) => permission.name),
-    );
-    return true;
+    const userRolePermissions = this.userPermissions(user);
+    let includePermission = false;
+    userRolePermissions.forEach((perm) => {
+      if (permissions.includes(perm)) {
+        includePermission = true;
+      }
+    });
+    return includePermission;
+  }
+
+  private userPermissions(user: UserEntity) {
+    const permissions: string[] = [];
+    user.roles.forEach((role) => {
+      role.permissions.forEach((permission) => {
+        if (!permissions.includes(permission.name)) {
+          permissions.push(permission.name);
+        }
+      });
+    });
+    return permissions;
   }
 }

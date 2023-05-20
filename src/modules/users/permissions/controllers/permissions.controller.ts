@@ -28,7 +28,7 @@ export class PermissionsController {
 
   @Get()
   @ApiBearerAuth()
-  @Role('user.read')
+  @Role('user.read', 'user.write')
   @UseGuards(JwtAuthGuard, PermissionGuard)
   findAll() {
     return this.permissionsService.findAll();

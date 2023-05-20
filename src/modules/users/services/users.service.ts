@@ -6,6 +6,7 @@ import { UserEntity } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { NotFoundError } from 'rxjs';
+import { RoleEntity } from '../roles/entities/role.entity';
 
 @Injectable()
 export class UsersService {
@@ -18,6 +19,9 @@ export class UsersService {
     return this.userRepo.save({
       username: createUserDto.username,
       password: password,
+      roles: createUserDto.roleIds.map(
+        (roleId) => new RoleEntity({ id: roleId }),
+      ),
       status: createUserDto.status,
     });
   }
