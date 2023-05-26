@@ -8,6 +8,7 @@ import { BrandEntity } from '../products/brands/entities/brand.entity';
 import { CategoryEntity } from '../products/categories/entities/category.entity';
 import { ProductEntity } from '../products/entities/product.entity';
 import { ImageEntity } from '../products/entities/image.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -29,7 +30,7 @@ import { ImageEntity } from '../products/entities/image.entity';
             ProductEntity,
             ImageEntity,
           ],
-          synchronize: true,
+          synchronize: false,
         };
       },
       inject: [ConfigService],
