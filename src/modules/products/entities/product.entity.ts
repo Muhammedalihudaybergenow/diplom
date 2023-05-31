@@ -4,10 +4,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
-  Tree,
-  TreeChildren,
-  TreeParent,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { BrandEntity } from '../brands/entities/brand.entity';
 import { CategoryEntity } from '../categories/entities/category.entity';
@@ -16,7 +13,6 @@ import { ImageEntity } from './image.entity';
 @Entity({
   name: 'products',
 })
-@Tree('materialized-path')
 export class ProductEntity {
   @PrimaryGeneratedColumn({
     name: 'id',
