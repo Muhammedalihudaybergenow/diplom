@@ -7,6 +7,7 @@ import { ProductModule } from './products/product.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { LanguagesModule } from './languages/languages.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', '../uploads'),
       serveRoot: '/uploads',
     }),
+    LanguagesModule,
   ],
 })
 export class AppModule {}

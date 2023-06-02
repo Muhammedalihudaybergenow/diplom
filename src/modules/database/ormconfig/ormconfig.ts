@@ -1,8 +1,12 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import * as dotenv from 'dotenv';
-
+import { SeederOptions } from 'typeorm-extension';
+import {LanguageSeed} from '../seeds/languages/languages.seed';
+import { UserSeed } from '../seeds/users/users.seed';
+import { RoleSeed } from '../seeds/roles/roles.seed';
+import { UserRoleSeed } from '../seeds/users/user-role.seed';
 dotenv.config();
-const dataSourceOption: DataSourceOptions = {
+const dataSourceOption: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   database: process.env.POSTGRES_DATABASE_NAME,
   host: process.env.POSTGRES_DATABASE_HOST,
@@ -12,6 +16,7 @@ const dataSourceOption: DataSourceOptions = {
   migrations: ['dist/modules/database/migrations/**/*.js'],
   entities: ['dist/modules/**/*.entity.js'],
   synchronize: false,
+  seeds: [LanguageSeed,UserSeed,RoleSeed,UserRoleSeed],
 };
 
 const dataSource = new DataSource(dataSourceOption);

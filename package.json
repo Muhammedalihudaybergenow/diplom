@@ -20,7 +20,8 @@
     "migration:up": "npm run build && npx typeorm migration:run -d ./dist/modules/database/ormconfig/ormconfig.js",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "seed": "npm run build && npx typeorm-extension seed -r ./dist -d ./dist/modules/database/ormconfig/ormconfig.js"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -44,7 +45,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.3.14"
+    "typeorm": "^0.3.14",
+    "typeorm-extension": "^2.8.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
