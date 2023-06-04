@@ -19,7 +19,7 @@ export class UserRoleSeed implements Seeder {
         .from('users_roles',null)
         .where('users_roles.user_id =:userId',{userId: superUser.id})
         .andWhere('users_roles.role_id =:roleId',{roleId: adminRole.id})
-        .getOne()
+        .getRawOne()
         if(!userRoleCheck){
             await connection.createQueryBuilder()
             .insert()

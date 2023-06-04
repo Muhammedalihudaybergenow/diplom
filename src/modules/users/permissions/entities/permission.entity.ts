@@ -28,7 +28,7 @@ export class PermissionEntity {
 
   @ManyToMany(() => RoleEntity, (roles) => roles.permissions)
   @JoinTable({
-    name: 'permissions_roles',
+    name: 'roles_permissions',
     joinColumn: {
       name: 'permission_id',
       referencedColumnName: 'id',

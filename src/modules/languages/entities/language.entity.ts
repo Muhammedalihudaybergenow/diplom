@@ -17,4 +17,8 @@ export class LanguageEntity {
         unique:true
     })
     name: string;
+
+    constructor(language?: Partial<LanguageEntity>){
+        Object.assign(this,language)
+    }
 }

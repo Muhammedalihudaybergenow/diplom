@@ -8,6 +8,7 @@ import { BrandEntity } from '../products/brands/entities/brand.entity';
 import { CategoryEntity } from '../products/categories/entities/category.entity';
 import { ProductEntity } from '../products/entities/product.entity';
 import { ImageEntity } from '../products/entities/image.entity';
+import { LanguageEntity } from '../languages/entities/language.entity';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ImageEntity } from '../products/entities/image.entity';
             CategoryEntity,
             ProductEntity,
             ImageEntity,
+            LanguageEntity
           ],
           synchronize: false,
         };
