@@ -9,6 +9,7 @@ import { CategoryEntity } from '../products/categories/entities/category.entity'
 import { ProductEntity } from '../products/entities/product.entity';
 import { ImageEntity } from '../products/entities/image.entity';
 import { LanguageEntity } from '../languages/entities/language.entity';
+import { ProductNameEntity } from '../products/entities/product-name.entity';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { LanguageEntity } from '../languages/entities/language.entity';
             CategoryEntity,
             ProductEntity,
             ImageEntity,
-            LanguageEntity
+            LanguageEntity,
+            ProductNameEntity
           ],
           synchronize: false,
         };

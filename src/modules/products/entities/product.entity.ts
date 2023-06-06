@@ -9,6 +9,7 @@ import {
 import { BrandEntity } from '../brands/entities/brand.entity';
 import { CategoryEntity } from '../categories/entities/category.entity';
 import { ImageEntity } from './image.entity';
+import {ProductNameEntity} from './product-name.entity'
 
 @Entity({
   name: 'products',
@@ -19,20 +20,6 @@ export class ProductEntity {
     type: 'integer',
   })
   id: number;
-
-  @Column({
-    name: 'name',
-    type: 'varchar',
-    nullable: false,
-  })
-  name: string;
-
-  @Column({
-    name: 'description',
-    type: 'text',
-    nullable: false,
-  })
-  description: string;
 
   @Column({
     name: 'brand_id',
@@ -64,6 +51,9 @@ export class ProductEntity {
     referencedColumnName: 'id',
   })
   brand: BrandEntity;
+
+  @OneToMany(()=>ProductNameEntity,(names)=>names.product,{cascade:true})
+  names: ProductNameEntity[];
 
   @ManyToOne(() => CategoryEntity, (category) => category.id)
   @JoinColumn({

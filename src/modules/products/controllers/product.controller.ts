@@ -25,21 +25,21 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(
-    FilesInterceptor('images', 10, {
-      dest: './uploads/products',
-      storage: diskStorage({
-        destination: 'uploads/products',
-        filename: ImageCommon.editFileName,
-      }),
-    }),
-  )
+  // @ApiConsumes('multipart/form-data')
+  // @UseInterceptors(
+  //   FilesInterceptor('images', 10, {
+  //     dest: './uploads/products',
+  //     storage: diskStorage({
+  //       destination: 'uploads/products',
+  //       filename: ImageCommon.editFileName,
+  //     }),
+  //   }),
+  // )
   create(
     @Body() createProductDto: CreateProductDto,
-    @UploadedFiles() files: Express.Multer.File[],
+    // @UploadedFiles() files: Express.Multer.File[],
   ) {
-    return this.productService.create(createProductDto, files);
+    return this.productService.create(createProductDto);
   }
 
   @Get()

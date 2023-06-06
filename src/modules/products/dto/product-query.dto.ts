@@ -26,6 +26,15 @@ export class ProductQueryDto {
   skip: number;
 
   @ApiProperty({
+    type: Number,
+    required:true,
+    nullable:false
+  })
+  @IsNotEmpty()
+  @IsNumberString()
+  languageId:number;
+  
+  @ApiProperty({
     type: [Number],
     required: false,
     nullable: false,

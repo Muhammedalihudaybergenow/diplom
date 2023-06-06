@@ -1,29 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayNotEmpty,
+  IsArray,
   IsNotEmpty,
   IsNumber,
   IsNumberString,
   IsString,
+  ValidateNested,
 } from 'class-validator';
+import { CreateProductNameDto } from './create-product-name.dto';
+import { Type } from 'class-transformer';
 
 export class CreateProductDto {
-  @ApiProperty({
-    type: String,
-    required: true,
-    nullable: false,
-  })
-  @IsNotEmpty()
-  @IsString()
-  name: string;
-
-  @ApiProperty({
-    type: String,
-    required: true,
-    nullable: false,
-  })
-  @IsNotEmpty()
-  @IsString()
-  description: string;
 
   @ApiProperty({
     type: Number,
@@ -31,7 +19,7 @@ export class CreateProductDto {
     nullable: false,
   })
   @IsNotEmpty()
-  @IsNumberString()
+  @IsNumber()
   price: number;
 
   @ApiProperty({
@@ -40,7 +28,7 @@ export class CreateProductDto {
     nullable: false,
   })
   @IsNotEmpty()
-  @IsNumberString()
+  @IsNumber()
   brandId: number;
 
   @ApiProperty({
@@ -49,14 +37,20 @@ export class CreateProductDto {
     nullable: false,
   })
   @IsNotEmpty()
-  @IsNumberString()
+  @IsNumber()
   categoryId: number;
 
   @ApiProperty({
-    type: [String],
-    format: 'binary',
-    required: true,
+    type: [CreateProductNameDto],
+    required:false,
     nullable: false,
   })
-  images: Express.Multer.File[];
+  @Type(()=>CreateProductNameDto)
+  @ValidateNested({
+    each:true
+  })
+  @IsNotEmpty()
+  @IsArray()
+  @ArrayNotEmpty()
+  names:CreateProductNameDto[];
 }

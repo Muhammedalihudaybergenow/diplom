@@ -8,6 +8,8 @@ import { ImageEntity } from '../entities/image.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductQueryDto } from '../dto/product-query.dto';
+import { ProductNameEntity } from '../entities/product-name.entity';
+import { LanguageEntity } from 'src/modules/languages/entities/language.entity';
 
 @Injectable()
 export class ProductService {
@@ -15,28 +17,32 @@ export class ProductService {
     @InjectRepository(ProductEntity)
     private productRepo: Repository<ProductEntity>,
   ) {}
-  create(createProductDto: CreateProductDto, files: Express.Multer.File[]) {
-    const { brandId, categoryId, description, images, name, price } =
+  create(createProductDto: CreateProductDto) {
+    const { brandId, categoryId, price,names } =
       createProductDto;
     const product = new ProductEntity();
     product.brand = new BrandEntity({ id: brandId });
     product.category = new CategoryEntity({ id: categoryId });
     product.price = price;
-    product.name = name;
-    product.description = description;
-    product.images = files.map((file) => new ImageEntity({ link: file.path }));
+    product.names = names.map((name)=>new ProductNameEntity({
+      langauge: new LanguageEntity({
+        id: name.languageId
+      }),
+      name: name.name
+    }))
     return this.productRepo.save(product);
   }
 
   findAll(dto: ProductQueryDto) {
-    let { limit, skip, brandIds, categoryIds, search } = dto;
+    let { limit, skip, brandIds, categoryIds, search,languageId } = dto;
     if (typeof brandIds === 'string') {
       brandIds = [brandIds];
     }
     if (typeof categoryIds === 'string') {
       categoryIds = [categoryIds];
     }
-    const query = this.productRepo.createQueryBuilder('products');
+    const query = this.productRepo.createQueryBuilder('products')
+    .leftJoinAndSelect('products.names',"names","names.languageId = :languageId",{languageId})
     if (brandIds) {
       query.andWhere('products.brandId IN (:...brandIds)', { brandIds });
     }
@@ -45,6 +51,7 @@ export class ProductService {
         categoryIds,
       });
     }
+  
     if (search) {
       query.andWhere(
         'products.name ILIKE (:search) OR products.description ILIKE (:search)',

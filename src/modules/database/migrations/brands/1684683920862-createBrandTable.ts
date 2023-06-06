@@ -12,7 +12,7 @@ export class CreateBrandTable1684683920862 implements MigrationInterface {
             name: 'id',
             type: 'integer',
             isNullable: false,
-            isGenerated: false,
+            isGenerated: true,
             isPrimary: true,
           },
           {
