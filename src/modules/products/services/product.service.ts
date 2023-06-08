@@ -18,12 +18,13 @@ export class ProductService {
     private productRepo: Repository<ProductEntity>,
   ) {}
   create(createProductDto: CreateProductDto) {
-    const { brandId, categoryId, price,names } =
+    const { brandId, categoryId,amount, price,names } =
       createProductDto;
     const product = new ProductEntity();
     product.brand = new BrandEntity({ id: brandId });
     product.category = new CategoryEntity({ id: categoryId });
     product.price = price;
+    product.amount = amount;
     product.names = names.map((name)=>new ProductNameEntity({
       langauge: new LanguageEntity({
         id: name.languageId

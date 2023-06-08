@@ -28,6 +28,11 @@ export class CreateProductTable1685109478844 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'amount',
+            type: 'integer',
+            isNullable:false
+          },
+          {
             name: 'price',
             type: 'integer',
             isNullable: false,

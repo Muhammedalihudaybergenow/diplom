@@ -24,6 +24,15 @@ export class CreateProductDto {
 
   @ApiProperty({
     type: Number,
+    required:true,
+    nullable:false
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  amount:number;
+
+  @ApiProperty({
+    type: Number,
     required: true,
     nullable: false,
   })

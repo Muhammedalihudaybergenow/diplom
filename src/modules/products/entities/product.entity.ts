@@ -25,6 +25,7 @@ export class ProductEntity {
     name: 'brand_id',
     type: 'integer',
     nullable: false,
+    select:false
   })
   brandId: number;
 
@@ -32,6 +33,7 @@ export class ProductEntity {
     name: 'category_id',
     type: 'integer',
     nullable: false,
+    select:false
   })
   categoryId: number;
 
@@ -41,6 +43,13 @@ export class ProductEntity {
     type: 'integer',
   })
   price: number;
+
+   @Column({
+    name:'amount',
+    type: 'integer',
+    nullable:false
+   })
+  amount:number;
 
   @OneToMany(() => ImageEntity, (images) => images.product, { cascade: true })
   images: ImageEntity[];

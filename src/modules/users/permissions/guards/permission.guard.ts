@@ -13,6 +13,9 @@ export class PermissionGuard implements CanActivate {
       'permission',
       context.getHandler(),
     );
+    if(!permissions.length){
+      return true
+    }
     const userRolePermissions = this.userPermissions(user);
     let includePermission = false;
     userRolePermissions.forEach((perm) => {

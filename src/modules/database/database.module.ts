@@ -10,6 +10,8 @@ import { ProductEntity } from '../products/entities/product.entity';
 import { ImageEntity } from '../products/entities/image.entity';
 import { LanguageEntity } from '../languages/entities/language.entity';
 import { ProductNameEntity } from '../products/entities/product-name.entity';
+import { OrderEntity } from '../orders/entities/order.entity';
+import { OrderItemEntity } from '../orders/entities/order-item.entity';
 
 @Module({
   imports: [
@@ -32,7 +34,9 @@ import { ProductNameEntity } from '../products/entities/product-name.entity';
             ProductEntity,
             ImageEntity,
             LanguageEntity,
-            ProductNameEntity
+            ProductNameEntity,
+            OrderEntity,
+            OrderItemEntity
           ],
           synchronize: false,
         };

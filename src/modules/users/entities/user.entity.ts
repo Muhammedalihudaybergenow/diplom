@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { RoleEntity } from '../roles/entities/role.entity';
+import { OrderEntity } from 'src/modules/orders/entities/order.entity';
 
 @Entity({
   name: 'users',
@@ -36,6 +37,9 @@ export class UserEntity {
   })
   status: string;
 
+  @OneToMany(()=>OrderEntity,(orders)=>orders.user)
+  orders:OrderEntity[];
+  
   @ManyToMany(() => RoleEntity, (roles) => roles.users)
   roles: RoleEntity[];
 
