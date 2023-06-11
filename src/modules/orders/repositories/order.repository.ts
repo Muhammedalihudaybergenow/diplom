@@ -6,6 +6,7 @@ import { CreateOrderProductsDto } from '../dto/create-order.dto';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { OrderStatusEnum } from '../enum/order.enum';
 import { OrderItemEntity } from '../entities/order-item.entity';
+import { OrderQueryDto } from '../dto/create-order-query.dto';
 
 @Injectable()
 export class OrderRepository extends Repository<OrderEntity> {
@@ -50,7 +51,6 @@ export class OrderRepository extends Repository<OrderEntity> {
           dto.products.find((prod) => prod.productId === product.id).amount;
       });
       const newOrder = await queryRunner.manager.save(order);
-      console.log(newOrder);
       await queryRunner.manager.save(products);
       await queryRunner.commitTransaction();
       return newOrder;
@@ -62,5 +62,47 @@ export class OrderRepository extends Repository<OrderEntity> {
         await queryRunner.release();
       }
     }
+  }
+
+  statusUpdate(id: number, status: OrderStatusEnum) {
+    const entity = new OrderEntity({
+      id,
+      status,
+      updatedAt: Date.now(),
+    });
+    return this.update(id, entity);
+  }
+
+  findAllOrders(dto: OrderQueryDto) {
+    const {
+      endDate,
+      limit,
+      orderBy,
+      orderDirection,
+      search,
+      skip,
+      startDate,
+      status,
+    } = dto;
+    const query = this.createQueryBuilder('orders');
+    if (startDate) {
+      query.andWhere('orders.createdAt >:startDate', { startDate });
+    }
+    if (endDate) {
+      query.andWhere('orders.createdAt <:endDate', { endDate });
+    }
+    if (search) {
+      query.andWhere('orders.orderNo ILIKE (:search)', {
+        search: `%${search}%`,
+      });
+    }
+    if (status) {
+      query.andWhere('orders.status =:status', { status });
+    }
+    return query
+      .take(limit)
+      .skip((skip - 1) * limit)
+      .orderBy(orderBy, orderDirection)
+      .getManyAndCount();
   }
 }

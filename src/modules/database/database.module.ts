@@ -36,8 +36,10 @@ import { OrderItemEntity } from '../orders/entities/order-item.entity';
             LanguageEntity,
             ProductNameEntity,
             OrderEntity,
-            OrderItemEntity
+            OrderItemEntity,
           ],
+          logging: true,
+          logger: 'simple-console',
           synchronize: false,
         };
       },

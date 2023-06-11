@@ -1,11 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { OrdersService } from '../services/orders.service';
-import { CreateOrderDto,CreateOrderProductsDto } from '../dto/create-order.dto';
+import {
+  CreateOrderDto,
+  CreateOrderProductsDto,
+} from '../dto/create-order.dto';
 import { UpdateOrderDto } from '../dto/update-order.dto';
 import { ApiTags } from '@nestjs/swagger';
-import {Permissions} from 'src/common/decorators/permissions.decorator'
-import {CurrentUser} from 'src/common/decorators/current-user.decorator'
+import { Permissions } from 'src/common/decorators/permissions.decorator';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
+import { OrderQueryDto } from '../dto/create-order-query.dto';
 @Controller('orders')
 @ApiTags('Order Controller')
 export class OrdersController {
@@ -13,13 +26,17 @@ export class OrdersController {
 
   @Post()
   @Permissions()
-  create(@Body() createOrderDto: CreateOrderProductsDto,@CurrentUser() user:UserEntity) {
-    return this.ordersService.create(createOrderDto,user);
+  create(
+    @Body() createOrderDto: CreateOrderProductsDto,
+    @CurrentUser() user: UserEntity,
+  ) {
+    return this.ordersService.create(createOrderDto, user);
   }
 
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  @Permissions()
+  findAll(@Query() query: OrderQueryDto) {
+    return this.ordersService.findAll(query);
   }
 
   @Get(':id')

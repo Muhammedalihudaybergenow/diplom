@@ -5,6 +5,8 @@ import { ProductRepository } from 'src/modules/products/repositories/product.rep
 import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { OrderErrorProductInterface } from '../interfaces/order-product-error.interface';
 import { OrderRepository } from '../repositories/order.repository';
+import { OrderStatusDto } from '../dto/order.status.dto';
+import { OrderQueryDto } from '../dto/create-order-query.dto';
 @Injectable()
 export class OrdersService {
   constructor(
@@ -56,19 +58,20 @@ export class OrdersService {
     );
   }
 
-  findAll() {
-    return `This action returns all orders`;
+  findAll(dto: OrderQueryDto) {
+    return this.orderRepository.findAllOrders(dto);
   }
 
   findOne(id: number) {
     return `This action returns a #${id} order`;
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
-  }
+  update(id: number, updateOrderDto: UpdateOrderDto) {}
 
   remove(id: number) {
     return `This action removes a #${id} order`;
+  }
+  statusUpdate(id: number, dto: OrderStatusDto) {
+    return this.orderRepository.statusUpdate(id, dto.status);
   }
 }
