@@ -105,4 +105,10 @@ export class OrderRepository extends Repository<OrderEntity> {
       .orderBy(orderBy, orderDirection)
       .getManyAndCount();
   }
+  findOneCredentials(id: number) {
+    return this.createQueryBuilder('order')
+      .leftJoinAndSelect('order.items', 'items')
+      .where('order.id =:id', { id })
+      .getOne();
+  }
 }

@@ -7,6 +7,7 @@ import { OrderErrorProductInterface } from '../interfaces/order-product-error.in
 import { OrderRepository } from '../repositories/order.repository';
 import { OrderStatusDto } from '../dto/order.status.dto';
 import { OrderQueryDto } from '../dto/create-order-query.dto';
+import { OrderStatusEnum } from '../enum/order.enum';
 @Injectable()
 export class OrdersService {
   constructor(
@@ -63,15 +64,24 @@ export class OrdersService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} order`;
+    return this.orderRepository.findOneCredentials(id);
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {}
-
-  remove(id: number) {
-    return `This action removes a #${id} order`;
-  }
-  statusUpdate(id: number, dto: OrderStatusDto) {
+  async statusUpdate(id: number, dto: OrderStatusDto) {
+    const { status } = dto;
+    if (status === OrderStatusEnum.REMOVED) {
+      const order = await this.orderRepository.findOneCredentials(id);
+      const productIds = order.items.map((item) => item.productId);
+      const products = await this.productRepository.findIds(productIds);
+      const entityProducts = products.map((product) => {
+        const itemProduct = order.items.find(
+          (item) => item.productId === product.id,
+        );
+        product.amount = product.amount + itemProduct.amount;
+        return product;
+      });
+      await this.productRepository.save(entityProducts);
+    }
     return this.orderRepository.statusUpdate(id, dto.status);
   }
 }

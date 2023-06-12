@@ -33,6 +33,13 @@ export class OrderItemEntity {
   })
   price: number;
 
+  @Column({
+    name: 'product_id',
+    type: 'integer',
+    nullable: false,
+  })
+  productId: number;
+
   @ManyToOne(() => ProductEntity, (product) => product.id)
   @JoinColumn({
     name: 'product_id',
