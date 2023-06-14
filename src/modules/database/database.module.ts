@@ -12,6 +12,7 @@ import { LanguageEntity } from '../languages/entities/language.entity';
 import { ProductNameEntity } from '../products/entities/product-name.entity';
 import { OrderEntity } from '../orders/entities/order.entity';
 import { OrderItemEntity } from '../orders/entities/order-item.entity';
+import { FileEntity } from '../files/entities/file.entity';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { OrderItemEntity } from '../orders/entities/order-item.entity';
             ProductNameEntity,
             OrderEntity,
             OrderItemEntity,
+            FileEntity,
           ],
           logging: true,
           logger: 'simple-console',
